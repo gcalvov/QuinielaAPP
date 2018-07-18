@@ -1,0 +1,77 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+}
+
+.text-field {
+    -fx-background-color: transparent;
+    -fx-border-style: none none solid none;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: white;
+    -fx-text-fill: white;
+}
+
+
+.buttons{
+    -fx-background-color: #00ADE5;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.cuadros{
+    -fx-border-width: 1 1 1 1;
+    -fx-border-color: grey;
+    -fx-border-radius: 5;
+
+}
+
+
+/* TabPane effects*/
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.tab-pane
+{
+    -fx-tab-min-width:100px;
+}
+
+.tab{
+    -fx-background-insets: 0 1 0 1,0,0;
+}
+.tab-pane .tab
+{
+    -fx-background-color: #00ADE5;
+    -fx-text-fill: white;
+
+
+}
+
+.tab-pane .tab:selected
+{
+    -fx-background-color: #D94941;
+
+}
+
+.tab .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.tab:selected .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: #fff;
+}
+
+.tab-pane:top *.tab-header-area {
+    -fx-background-insets: 0, 0 0 1 0;
+    /* -fx-padding: 0.416667em 0.166667em 0.0em 0.833em; /* 5 2 0 10 */
+    -fx-padding: 0.416667em 0.166667em 0.0em 0.0em; /* overridden as 5 2 0 0 */
+}
+
