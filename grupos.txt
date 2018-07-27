@@ -1,0 +1,1 @@
+Grupo{codigo=01, nombreGrupo=uruguay, listaEquipos=[Equipo{iso=null, nombre=argentina, rankinFIFA=0}, Equipo{iso=null, nombre=2, rankinFIFA=0}, Equipo{iso=null, nombre=3, rankinFIFA=0}, Equipo{iso=null, nombre=4, rankinFIFA=0}]}

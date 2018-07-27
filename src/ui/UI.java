@@ -38,10 +38,12 @@ public class UI {
     static void mostrarMenu() {
 
         out.println();
-        out.println("1.  Registro de grupo");
-        out.println("2.  Listar grupos");
-        out.println("3.  Registro de mundial");
-        out.println("4.  Lista de mundiales");
+        out.println("1.  Registro de equipos");
+        out.println("2.  Lista de equipos");
+        out.println("3.  Registro de grupo");
+        out.println("4.  Listar grupos");
+        out.println("5.  Registro de mundial");
+        out.println("6.  Lista de mundiales");
         out.println("0.  Salir");
         out.println();
 
@@ -63,13 +65,27 @@ public class UI {
         boolean noSalir = true;
 
         switch (popcion) {
-
             case 1:
-                registrarGrupo();
+                registrarEquipo();
                 break;
 
             case 2:
+                listarEquipos();
+                break;
+            case 3:
+                registrarGrupo();
+                break;
+
+            case 4:
                 listarGrupos();
+                break;
+
+            case 5:
+                registrarMundiales();
+                break;
+
+            case 6:
+                listarMundiales();
                 break;
 
             case 0:
@@ -84,6 +100,41 @@ public class UI {
                 break;
         }
         return noSalir;
+    }
+
+    public static void registrarEquipo() throws IOException {
+        String iso;
+        String nombre;
+        int rankinFIFA;
+        String log = "";
+
+        out.println("Ingrese el codigo iso del equipo:");
+        iso = in.readLine();
+        out.println("Ingrese el nombre del equipo:");
+        nombre = in.readLine();
+        out.println("Ingrese el rankinFIFA del equipo:");
+        rankinFIFA = Integer.parseInt(in.readLine());
+
+        GestorEquipos miGestor = new GestorEquipos();
+        log = miGestor.registrarEquipos(iso, nombre, rankinFIFA);
+
+        out.println(log);
+
+    }
+
+    public static void listarEquipos() {
+        GestorEquipos miGestor = new GestorEquipos();
+
+        out.println();
+        out.println("*****************");
+        out.println("Lista de registros");
+        out.println("*****************");
+        for (String dato : miGestor.listarEquipos()) {
+            out.println("-  " + dato);
+        }
+        out.println("*****************");
+        out.println();
+
     }
 
     public static void registrarGrupo() throws IOException {
@@ -132,7 +183,6 @@ public class UI {
 
         out.println("Ingrese el nombre del pais Anfitrion:");
         paisOrganizador = in.readLine();
-        
 
         out.println("Ingrese el nombre del grupo A:");
         codGA = in.readLine();
@@ -164,6 +214,11 @@ public class UI {
             out.println(dato);
         }
 
+    }
+
+
+    private static void registrarMundiales() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

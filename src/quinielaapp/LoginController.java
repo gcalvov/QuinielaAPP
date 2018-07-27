@@ -50,7 +50,7 @@ public class LoginController implements Initializable {
         if (txtUser.getText().equals("usuario") && txtPassword.getText().equals("pass")) {
             lblStatus.setText("Credenciales aceptados");
 
-            Parent tableViewParent = FXMLLoader.load(getClass().getResource("Landing.fxml"));
+            Parent tableViewParent = FXMLLoader.load(getClass().getResource("LandingAdministrador.fxml"));
             Scene tableViewScene = new Scene(tableViewParent);
 
             //Esta linea toma la informacion del Stage
