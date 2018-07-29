@@ -5,29 +5,23 @@
  */
 package quinielaapp;
 
-import cl.Equipo;
+import cl.*;
+import gestores.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.stage.Stage;
-import javax.swing.plaf.basic.BasicTreeUI;
 
 /**
  * FXML Controller class
@@ -49,6 +43,12 @@ public class LandingAdministradorController implements Initializable {
     Button btnSalir;
 
     @FXML
+    Button btnActualizar;
+
+    @FXML
+    Button btnRegistrar;
+
+    @FXML
     private TextField txtISO;
     @FXML
     private TextField txtNombre;
@@ -64,11 +64,18 @@ public class LandingAdministradorController implements Initializable {
         tableView.setItems(getEquipos());
 
         tableView.setEditable(true);
-        nombreColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        isoColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        rankingColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        btnActualizar.setVisible(false);
+
+    }
+
+    public void nuevoEquipo() {
+        Equipo equipoNuevo = new Equipo(txtISO.getText(), txtNombre.getText(), Integer.parseInt(txtRanking.getText()));
+        // tomar todos los items de la tabla
+        tableView.getItems().add(equipoNuevo);
+        txtISO.setText("");
+        txtNombre.setText("");
+        txtRanking.setText("");
 
     }
 
@@ -83,36 +90,68 @@ public class LandingAdministradorController implements Initializable {
         }
     }
 
-    public ObservableList<Equipo> getEquipos() {
-        ObservableList<Equipo> listaEquipos = FXCollections.observableArrayList();
-        listaEquipos.add(new Equipo("CRC", "Costa Rica", "12"));
-        listaEquipos.add(new Equipo("BRA", "Brazil", "1"));
-        listaEquipos.add(new Equipo("BEL", "Belgica", "3"));
-        listaEquipos.add(new Equipo("CRC", "Costa Rica", "12"));
-        listaEquipos.add(new Equipo("BRA", "Brazil", "1"));
-        listaEquipos.add(new Equipo("BEL", "Belgica", "3"));
-        listaEquipos.add(new Equipo("CRC", "Costa Rica", "12"));
-        listaEquipos.add(new Equipo("BRA", "Brazil", "1"));
-        listaEquipos.add(new Equipo("BEL", "Belgica", "3"));
+    public void actualizarEquipo() {
+        btnActualizar.setVisible(false);
+        btnRegistrar.setVisible(true);
+        Equipo selectedRow = tableView.getSelectionModel().getSelectedItem();
 
-        return listaEquipos;
+        Equipo equipoActualizado = new Equipo(txtISO.getText(), txtNombre.getText(), Integer.parseInt(txtRanking.getText()));
+
+        tableView.getItems().remove(selectedRow);
+        tableView.getItems().add(equipoActualizado);
+
+        txtISO.setText("");
+        txtNombre.setText("");
+        txtRanking.setText("");
+
+    }
+
+    public void cancelar() {
+        txtISO.setText("");
+        txtNombre.setText("");
+        txtRanking.setText("");
+    }
+
+    public ObservableList<Equipo> getEquipos() {
+
+//        ObservableList<Equipo> listaEquipos = FXCollections.observableArrayList();
+//        listaEquipos.add(new Equipo("CRC", "Costa Rica", 12));
+//        listaEquipos.add(new Equipo("BRA", "Brazil", 1));
+//        listaEquipos.add(new Equipo("BEL", "Belgica", 3));
+//        listaEquipos.add(new Equipo("MEX", "Mexico", 10));
+//        listaEquipos.add(new Equipo("BRA", "Brazil", 1));
+//        listaEquipos.add(new Equipo("BEL", "Belgica", 3));
+//        listaEquipos.add(new Equipo("CRC", "Costa Rica", 12));
+//        listaEquipos.add(new Equipo("BRA", "Brazil", 1));
+//        listaEquipos.add(new Equipo("BEL", "Belgica", 3));
+//
+//        return listaEquipos;
+//      usando mi estructura
+        GestorEquipos miGestor = new GestorEquipos();
+        ArrayList<Equipo> listaEquipos = miGestor.getListaEquipos();
+
+        ObservableList<Equipo> lista = FXCollections.observableArrayList();
+
+        for (Equipo x : listaEquipos) {
+            lista.add(x);
+        }
+
+        return lista;
     }
 
     public void salirDelSistema(ActionEvent event) throws IOException {
         System.exit(0);
     }
 
-    public void cambiarDatos(CellEditEvent celdaCambiar) {
-        Equipo equipoSeleccionado = tableView.getSelectionModel().getSelectedItem();
-        equipoSeleccionado.setNombre(celdaCambiar.getNewValue().toString());
-        equipoSeleccionado.setIso(celdaCambiar.getNewValue().toString());
-        equipoSeleccionado.setRankinFIFA(celdaCambiar.getNewValue().toString());
-    }
+    public void modificarEquipo(CellEditEvent celdaCambiar) {
+        btnActualizar.setVisible(true);
+        btnRegistrar.setVisible(false);
 
-    public void nuevoEquipo() {
-        Equipo equipoNuevo = new Equipo(txtISO.getText(), txtNombre.getText(), txtRanking.getText());
-        // tomar todos los items de la tabla
-        tableView.getItems().add(equipoNuevo);
+        Equipo selectedRow = tableView.getSelectionModel().getSelectedItem();
+        txtISO.setText(selectedRow.getIso());
+        txtNombre.setText(selectedRow.getNombre());
+        txtRanking.setText(String.valueOf(selectedRow.getRankinFIFA()));
+
     }
 
 }
