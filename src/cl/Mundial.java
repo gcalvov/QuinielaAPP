@@ -5,33 +5,82 @@
  */
 package cl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
  * @author Gabriel
  */
 public class Mundial {
-    private int anho;
+
+    private LocalDate fecha;
     private String paisOrganizador;
-    private boolean estado; 
+    private boolean estado;
     private ArrayList<Grupo> listaGrupos;
-    
+    private ArrayList<Partido> listaPartidos;
+    private ArrayList<Liga> listaLigas;
 
     public Mundial() {
     }
 
-    public Mundial(int anho, String paisOrganizador, boolean estado, ArrayList<Grupo> listaGrupos) {
-        this.anho = anho;
+    public Mundial(LocalDate fecha, String paisOrganizador, boolean estado, ArrayList<Grupo> plistaGrupos) {
+        this.fecha = fecha;
         this.paisOrganizador = paisOrganizador;
         this.estado = estado;
-        this.listaGrupos = listaGrupos;
+        this.listaGrupos = plistaGrupos;
     }
 
+    public void setListaPartidos(ArrayList<Partido> listaPartidos) {
+        if (listaPartidos == null){
+        listaPartidos = new ArrayList();
+        }
+        this.listaPartidos = listaPartidos;
+    }
+    
+    
 
+    public ArrayList<Liga> getListaLigas() {
+        if (listaLigas == null) {
+            listaLigas = new ArrayList();
+        }
+        return listaLigas;
+    }
 
-    public int getAnho() {
-        return anho;
+    public ArrayList<String> getListaLigasString() {
+        if (listaLigas == null) {
+            listaLigas = new ArrayList();
+        }
+        ArrayList<String> lista = new ArrayList();
+        for (Liga x : listaLigas) {
+            String estatus;
+            String activa;
+            if (x.isPrivada()) {
+                estatus = "liga privada";
+            } else {
+                estatus = "liga publica";
+            }
+            if (x.isEstatus()) {
+                activa = "activa";
+            } else {
+                activa = "inactiva";
+            }
+
+            lista.add("- " +x.getNombre() + ", " + estatus+", "+activa);
+        }
+        return lista;
+    }
+
+    public void setListaLigas(Liga pLigaX) {
+        if (listaLigas == null) {
+            listaLigas = new ArrayList();
+        }
+        listaLigas.add(pLigaX);
+    }
+
+    public LocalDate getAnho() {
+        return fecha;
     }
 
     public String getPaisOrganizador() {
@@ -42,18 +91,12 @@ public class Mundial {
         return estado;
     }
 
-    public ArrayList<String> getListaGrupos() {
-        ArrayList<String> lista = new ArrayList();
-        for (Grupo x:listaGrupos){
-            lista.add(x.toString());
-        
-        }
-        return lista;
+    public ArrayList<Grupo> getListaGrupos() {
+        return listaGrupos;
     }
-    
 
-    public void setAnho(int anho) {
-        this.anho = anho;
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
     }
 
     public void setPaisOrganizador(String paisOrganizador) {
@@ -64,21 +107,47 @@ public class Mundial {
         this.estado = estado;
     }
 
-    public void setListaGrupos(ArrayList<Grupo> listaGrupos) {
+    public void anhadirGrupo(Grupo grupoX) {
         if (listaGrupos == null) {
             listaGrupos = new ArrayList();
         }
-        for (int i = 0; i < listaGrupos.size(); i++) {
-            listaGrupos.add(listaGrupos.get(i));
-        }
-    }
-    
-    
-    @Override
-    public String toString() {
-        return "Mundial{" + "anho=" + anho + ", paisOrganizador=" + paisOrganizador + ", estado=" + estado + '}';
+        listaGrupos.add(grupoX);
+
     }
 
-    
-    
+    public ArrayList<Partido> getCronograma() {
+        return listaPartidos;
+    }
+
+    public ArrayList<String> getListaPartidos() {
+        ArrayList<String> lista = new ArrayList();
+        for (Partido x : listaPartidos) {
+            lista.add(x.getEquipo1().getNombre() + " - " + x.getEquipo2().getNombre() + "/" +x.getFecha().toString());
+        }
+        return lista;
+    }
+
+    @Override
+    public String toString() {
+        return "Mundial{" + "fecha=" + fecha + ", paisOrganizador=" + paisOrganizador + ", estado=" + estado + '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Mundial other = (Mundial) obj;
+        if (!Objects.equals(this.paisOrganizador, other.paisOrganizador)) {
+            return false;
+        }
+        return true;
+    }
+
 }

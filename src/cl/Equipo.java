@@ -14,42 +14,42 @@ import javafx.beans.property.SimpleStringProperty;
  * @author Gabriel
  */
 public class Equipo {
-    private SimpleStringProperty iso;
-    private SimpleStringProperty nombre;
-    private SimpleStringProperty rankinFIFA;
+    private String iso;
+    private String nombre;
+    private int rankinFIFA;
     // Bandera;
 
     public Equipo() {
     }
 
-    public Equipo(String iso, String nombre, String rankinFIFA) {
-        this.iso = new SimpleStringProperty(iso);
-        this.nombre = new SimpleStringProperty(nombre);
-        this.rankinFIFA = new SimpleStringProperty(rankinFIFA);
+    public Equipo(String iso, String nombre, int rankinFIFA) {
+        this.iso = iso;
+        this.nombre = nombre;
+        this.rankinFIFA = rankinFIFA;
     }
 
     public void setIso(String iso) {
-        this.iso = new SimpleStringProperty(iso);
+        this.iso = iso;
     }
 
     public void setNombre(String nombre) {
-        this.nombre = new SimpleStringProperty(nombre);
+        this.nombre = nombre;
     }
 
-    public void setRankinFIFA(String rankinFIFA) {
-        this.rankinFIFA = new SimpleStringProperty(rankinFIFA);
+    public void setRankinFIFA(int rankinFIFA) {
+        this.rankinFIFA = rankinFIFA;
     }
 
     public String getIso() {
-        return iso.get();
+        return iso;
     }
 
     public String getNombre() {
-        return nombre.get();
+        return nombre;
     }
 
-    public String getRankinFIFA() {
-        return rankinFIFA.get();
+    public int getRankinFIFA() {
+        return rankinFIFA;
     }
 
   
@@ -78,7 +78,7 @@ public class Equipo {
             return false;
         }
         final Equipo other = (Equipo) obj;
-        if (!Objects.equals(this.iso, other.iso)) {
+        if (!Objects.equals(this.nombre, other.nombre)) {
             return false;
         }
         return true;

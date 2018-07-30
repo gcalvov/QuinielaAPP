@@ -24,8 +24,9 @@ import javafx.stage.Stage;
  */
 public class LandingController implements Initializable {
 
-
-
+    public void salirDelSistema(ActionEvent event) throws IOException {
+        System.exit(0);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

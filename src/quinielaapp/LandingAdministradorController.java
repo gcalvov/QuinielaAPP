@@ -9,7 +9,9 @@ import cl.*;
 import gestores.*;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,10 +19,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -30,6 +38,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class LandingAdministradorController implements Initializable {
 
+    //Aqui defino el tableView para los equipos
     @FXML
     private TableView<Equipo> tableView;
     @FXML
@@ -39,14 +48,23 @@ public class LandingAdministradorController implements Initializable {
     @FXML
     private TableColumn<Equipo, String> rankingColumn;
 
+    // Aqui defino los botones
     @FXML
-    Button btnSalir;
+    private Button btnSalir;
 
     @FXML
-    Button btnActualizar;
+    private Button btnActualizar;
 
     @FXML
-    Button btnRegistrar;
+    private Button btnRegistrar;
+    @FXML
+    private Button btnAnhadirEquipoMundial;
+
+    // Aqui defino labels
+    @FXML
+    private Label lblAnhadirEquiposMundial;
+    @FXML
+    private Label lblListaEquipos;
 
     @FXML
     private TextField txtISO;
@@ -54,9 +72,98 @@ public class LandingAdministradorController implements Initializable {
     private TextField txtNombre;
     @FXML
     private TextField txtRanking;
+    @FXML
+    private TextField txtPais;
+    @FXML
+    private TextField txtGrupo1;
+    @FXML
+    private TextField txtGrupo2;
+    @FXML
+    private TextField txtGrupo3;
+    @FXML
+    private TextField txtGrupo4;
+    @FXML
+    private TextField txtGrupo5;
+    @FXML
+    private TextField txtGrupo6;
+    @FXML
+    private TextField txtGrupo7;
+    @FXML
+    private TextField txtGrupo8;
+    @FXML
+    private TextField txtNombreLiga;
+
+    //Aqui defino DatePickers
+    @FXML
+    private DatePicker dateMundial;
+    @FXML
+    private DatePicker dateLiga;
+
+    // Esto es para agrupar los radio buttons
+    private ToggleGroup actividadMundialesGroup;
+    private ToggleGroup actividadLigaGroup;
+
+    @FXML
+    private RadioButton rbtnMundialActivo;
+    @FXML
+    private RadioButton rbtnMundialInactivo;
+    @FXML
+    private RadioButton rbtnLigaActivo;
+    @FXML
+    private RadioButton rbtnLigaInactivo;
+
+    // Aqui defino los equipos que van a ir dentro del choiceBox
+    @FXML
+    private ChoiceBox choiceBoxEquipos;
+
+    // Aqui listo mundiales que van en el choiceBox
+    @FXML
+    private ChoiceBox choiceBoxlistaMundiales;
+    @FXML
+    private ChoiceBox choiceBoxlistaMundiales2;
+
+    // Aqui defino los grupos;
+    @FXML
+    private ListView lviewGrupo1;
+    @FXML
+    private ListView lviewGrupo2;
+    @FXML
+    private ListView lviewGrupo3;
+    @FXML
+    private ListView lviewGrupo4;
+    @FXML
+    private ListView lviewGrupo5;
+    @FXML
+    private ListView lviewGrupo6;
+    @FXML
+    private ListView lviewGrupo7;
+    @FXML
+    private ListView lviewGrupo8;
+
+    @FXML
+    private ListView lviewCronograma1;
+    @FXML
+    private ListView lviewCronograma2;
+    @FXML
+    private ListView lviewCronograma3;
+    @FXML
+    private ListView lviewCronograma4;
+    @FXML
+    private ListView lviewCronograma5;
+    @FXML
+    private ListView lviewCronograma6;
+    @FXML
+    private ListView lviewCronograma7;
+    @FXML
+    private ListView lviewCronograma8;
+
+    @FXML
+    private ListView lViewLigas;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        //Aqui se anhaden los valores a las columnas de los equipos
         isoColumn.setCellValueFactory(new PropertyValueFactory<Equipo, String>("iso"));
         nombreColumn.setCellValueFactory(new PropertyValueFactory<Equipo, String>("nombre"));
         rankingColumn.setCellValueFactory(new PropertyValueFactory<Equipo, String>("rankinFIFA"));
@@ -67,6 +174,24 @@ public class LandingAdministradorController implements Initializable {
 
         btnActualizar.setVisible(false);
 
+        //Aqui agrupo los radio buttons dentro de un toggleGroup
+        actividadMundialesGroup = new ToggleGroup();
+        this.rbtnMundialActivo.setToggleGroup(actividadMundialesGroup);
+        this.rbtnMundialInactivo.setToggleGroup(actividadMundialesGroup);
+        rbtnMundialActivo.setSelected(true);
+
+        //Aqui agrupo los radio buttons dentro de otro toggleGroup
+        actividadLigaGroup = new ToggleGroup();
+        this.rbtnLigaActivo.setToggleGroup(actividadLigaGroup);
+        this.rbtnLigaInactivo.setToggleGroup(actividadLigaGroup);
+        rbtnLigaInactivo.setSelected(true);
+
+        //Aqui relleno los equipos que van dentro del ChoiceBox 
+        GestorEquipos miGestor = new GestorEquipos();
+        ArrayList<Equipo> listaEquipos = miGestor.getListaEquipos();
+        for (Equipo x : listaEquipos) {
+            choiceBoxEquipos.getItems().add(x.getIso() + ", " + x.getNombre());
+        }
     }
 
     public void nuevoEquipo() {
@@ -106,7 +231,7 @@ public class LandingAdministradorController implements Initializable {
 
     }
 
-    public void cancelar() {
+    public void cancelarEquipos() {
         txtISO.setText("");
         txtNombre.setText("");
         txtRanking.setText("");
@@ -114,19 +239,6 @@ public class LandingAdministradorController implements Initializable {
 
     public ObservableList<Equipo> getEquipos() {
 
-//        ObservableList<Equipo> listaEquipos = FXCollections.observableArrayList();
-//        listaEquipos.add(new Equipo("CRC", "Costa Rica", 12));
-//        listaEquipos.add(new Equipo("BRA", "Brazil", 1));
-//        listaEquipos.add(new Equipo("BEL", "Belgica", 3));
-//        listaEquipos.add(new Equipo("MEX", "Mexico", 10));
-//        listaEquipos.add(new Equipo("BRA", "Brazil", 1));
-//        listaEquipos.add(new Equipo("BEL", "Belgica", 3));
-//        listaEquipos.add(new Equipo("CRC", "Costa Rica", 12));
-//        listaEquipos.add(new Equipo("BRA", "Brazil", 1));
-//        listaEquipos.add(new Equipo("BEL", "Belgica", 3));
-//
-//        return listaEquipos;
-//      usando mi estructura
         GestorEquipos miGestor = new GestorEquipos();
         ArrayList<Equipo> listaEquipos = miGestor.getListaEquipos();
 
@@ -151,6 +263,252 @@ public class LandingAdministradorController implements Initializable {
         txtISO.setText(selectedRow.getIso());
         txtNombre.setText(selectedRow.getNombre());
         txtRanking.setText(String.valueOf(selectedRow.getRankinFIFA()));
+    }
+
+    // Este metodo añade equipos dentro de un grupo:
+    public void anhadirEquiposMundial() {
+        if (lviewGrupo1.getItems().size() < 4) {
+            lviewGrupo1.getItems().add(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+            choiceBoxEquipos.getItems().remove(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+        } else {
+            if (lviewGrupo2.getItems().size() < 4) {
+                lviewGrupo2.getItems().add(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+                choiceBoxEquipos.getItems().remove(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+            } else {
+                if (lviewGrupo3.getItems().size() < 4) {
+                    lviewGrupo3.getItems().add(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+                    choiceBoxEquipos.getItems().remove(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+                } else {
+                    if (lviewGrupo4.getItems().size() < 4) {
+                        lviewGrupo4.getItems().add(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+                        choiceBoxEquipos.getItems().remove(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+                    } else {
+                        if (lviewGrupo5.getItems().size() < 4) {
+                            lviewGrupo5.getItems().add(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+                            choiceBoxEquipos.getItems().remove(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+                        } else {
+                            if (lviewGrupo6.getItems().size() < 4) {
+                                lviewGrupo6.getItems().add(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+                                choiceBoxEquipos.getItems().remove(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+                            } else {
+                                if (lviewGrupo7.getItems().size() < 4) {
+                                    lviewGrupo7.getItems().add(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+                                    choiceBoxEquipos.getItems().remove(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+                                } else {
+                                    if (lviewGrupo8.getItems().size() < 3) {
+                                        lviewGrupo8.getItems().add(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+                                        choiceBoxEquipos.getItems().remove(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+                                    } else {
+                                        if (lviewGrupo8.getItems().size() < 4) {
+                                            lviewGrupo8.getItems().add(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+                                            choiceBoxEquipos.getItems().remove(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+                                            choiceBoxEquipos.setVisible(false);
+                                            btnAnhadirEquipoMundial.setVisible(false);
+                                            lblListaEquipos.setText("Grupos llenos!");
+                                            lblAnhadirEquiposMundial.setVisible(false);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void cancelarRegistroMundial() {
+        choiceBoxEquipos.getItems().clear();
+        //Aqui relleno los equipos que van dentro del ChoiceBox 
+
+        GestorEquipos miGestor = new GestorEquipos();
+        ArrayList<Equipo> listaEquipos = miGestor.getListaEquipos();
+        for (Equipo x : listaEquipos) {
+            choiceBoxEquipos.getItems().add(x.getIso() + ", " + x.getNombre());
+        }
+        lviewGrupo1.getItems().clear();
+        lviewGrupo2.getItems().clear();
+        lviewGrupo3.getItems().clear();
+        lviewGrupo4.getItems().clear();
+        lviewGrupo5.getItems().clear();
+        lviewGrupo6.getItems().clear();
+        lviewGrupo7.getItems().clear();
+        lviewGrupo8.getItems().clear();
+
+        txtPais.setText("");
+        dateMundial.setValue(null);
+        choiceBoxEquipos.setVisible(true);
+        btnAnhadirEquipoMundial.setVisible(true);
+        lblListaEquipos.setText("Lista de equipos:");
+        lblAnhadirEquiposMundial.setVisible(true);
+
+    }
+
+    public void registrarMundial() {
+
+        String pais;
+        LocalDate fecha;
+        boolean estatus;
+
+        pais = txtPais.getText();
+        fecha = dateMundial.getValue();
+        if (rbtnMundialActivo.isSelected()) {
+            estatus = true;
+        } else {
+            estatus = false;
+        }
+
+        GestorMundiales miGestor = new GestorMundiales();
+        miGestor.setMundial(fecha, pais, estatus);
+
+        //Prueba!
+        System.out.println("Tamano " + lviewGrupo1.getItems().size());
+        System.out.println("Tamano " + lviewGrupo2.getItems().size());
+        System.out.println("Tamano " + lviewGrupo3.getItems().size());
+        System.out.println("Tamano " + lviewGrupo4.getItems().size());
+        System.out.println("Tamano " + lviewGrupo5.getItems().size());
+        System.out.println("Tamano " + lviewGrupo6.getItems().size());
+        System.out.println("Tamano " + lviewGrupo7.getItems().size());
+        System.out.println("Tamano " + lviewGrupo8.getItems().size());
+
+        //set grupo 1
+        ObservableList<String> listaEquipos1 = lviewGrupo1.getItems();
+        ArrayList<String> equipos1 = new ArrayList();
+        for (String e : listaEquipos1) {
+            equipos1.add(e.toString().substring(5));
+        }
+        miGestor.setGrupoMundial(pais, txtGrupo1.getText(), txtGrupo1.getText(), equipos1);
+
+        //set grupo 2
+        ObservableList<String> listaEquipos2 = lviewGrupo2.getItems();
+        ArrayList<String> equipos2 = new ArrayList();
+        for (String e : listaEquipos2) {
+            equipos2.add(e.substring(5));
+        }
+        miGestor.setGrupoMundial(pais, txtGrupo2.getText(), txtGrupo2.getText(), equipos2);
+
+        //set grupo 3
+        ObservableList<String> listaEquipos3 = lviewGrupo3.getItems();
+        ArrayList<String> equipos3 = new ArrayList();
+        for (String e : listaEquipos3) {
+            equipos3.add(e.substring(5));
+        }
+        miGestor.setGrupoMundial(pais, txtGrupo3.getText(), txtGrupo3.getText(), equipos3);
+
+        //set grupo 4
+        ObservableList<String> listaEquipos4 = lviewGrupo4.getItems();
+        ArrayList<String> equipos4 = new ArrayList();
+        for (String e : listaEquipos4) {
+            equipos4.add(e.substring(5));
+        }
+        miGestor.setGrupoMundial(pais, txtGrupo4.getText(), txtGrupo4.getText(), equipos4);
+
+        //set grupo 5
+        ObservableList<String> listaEquipos5 = lviewGrupo5.getItems();
+        ArrayList<String> equipos5 = new ArrayList();
+        for (String e : listaEquipos5) {
+            equipos5.add(e.substring(5));
+        }
+        miGestor.setGrupoMundial(pais, txtGrupo5.getText(), txtGrupo5.getText(), equipos5);
+
+        //set grupo 6
+        ObservableList<String> listaEquipos6 = lviewGrupo6.getItems();
+        ArrayList<String> equipos6 = new ArrayList();
+        for (String e : listaEquipos6) {
+            equipos6.add(e.substring(5));
+        }
+        miGestor.setGrupoMundial(pais, txtGrupo6.getText(), txtGrupo6.getText(), equipos6);
+
+        //set grupo 7
+        ObservableList<String> listaEquipos7 = lviewGrupo7.getItems();
+        ArrayList<String> equipos7 = new ArrayList();
+        for (String e : listaEquipos7) {
+            equipos7.add(e.substring(5));
+        }
+        miGestor.setGrupoMundial(pais, txtGrupo7.getText(), txtGrupo7.getText(), equipos7);
+
+        //set grupo 8
+        ObservableList<String> listaEquipos8 = lviewGrupo8.getItems();
+        ArrayList<String> equipos8 = new ArrayList();
+        for (String e : listaEquipos8) {
+            equipos8.add(e.substring(5));
+        }
+        miGestor.setGrupoMundial(pais, txtGrupo8.getText(), txtGrupo8.getText(), equipos8);
+        miGestor.setCronograma(pais);
+
+        //miGestor.setCronograma(pais);
+        cancelarRegistroMundial();
+
+    }
+
+    public void rellenarMundiales() {
+        GestorMundiales miGestor = new GestorMundiales();
+        ArrayList<String> mundiales = miGestor.listarMundiales();
+        choiceBoxlistaMundiales.getItems().clear();
+        choiceBoxlistaMundiales2.getItems().clear();
+
+        for (String x : mundiales) {
+            choiceBoxlistaMundiales.getItems().add(x);
+            choiceBoxlistaMundiales2.getItems().add(x);
+        }
+
+    }
+
+    public void rellenarCronograma() {
+        GestorMundiales miGestor = new GestorMundiales();
+        String pais;
+
+        pais = choiceBoxlistaMundiales2.getSelectionModel().getSelectedItem().toString();
+
+        ArrayList<String> partidos = new ArrayList();
+
+        partidos = miGestor.getCronograma(pais);
+
+        for (int i = 0; i < 6; i++) {
+            lviewCronograma1.getItems().add(partidos.get(i));
+            lviewCronograma2.getItems().add(partidos.get(i + 6));
+            lviewCronograma3.getItems().add(partidos.get(i + 12));
+            lviewCronograma4.getItems().add(partidos.get(i + 18));
+            lviewCronograma5.getItems().add(partidos.get(i + 24));
+            lviewCronograma6.getItems().add(partidos.get(i + 30));
+            lviewCronograma7.getItems().add(partidos.get(i + 36));
+            lviewCronograma8.getItems().add(partidos.get(i + 42));
+        }
+
+    }
+
+    public void registrarLiga() {
+        String nombreLiga;
+        LocalDate fechaCreacion;
+        boolean estatus;
+        String mundial;
+
+        nombreLiga = txtNombreLiga.getText();
+        fechaCreacion = dateLiga.getValue();
+
+        if (rbtnLigaActivo.isSelected()) {
+            estatus = true;
+        } else {
+            estatus = false;
+        }
+
+        mundial = choiceBoxlistaMundiales.getSelectionModel().getSelectedItem().toString();
+
+        GestorMundiales miGestor = new GestorMundiales();
+        miGestor.setLiga(mundial, nombreLiga, fechaCreacion, estatus, false);
+        lViewLigas.getItems().clear();
+        ArrayList<String> ligas = new ArrayList();
+        ligas = miGestor.getLigas(mundial);
+        for (String x : ligas) {
+            lViewLigas.getItems().add(x);
+        }
+
+    }
+
+    public void cancelarRegistroLiga() {
+        txtNombreLiga.setText("");
+        dateLiga.setValue(null);
+        choiceBoxlistaMundiales.getItems().clear();
 
     }
 

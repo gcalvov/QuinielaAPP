@@ -16,12 +16,12 @@
         <URL value="@login.css" />
     </stylesheets>
    <children>
-      <ImageView fitHeight="408.0" fitWidth="743.0" layoutX="-2.0" layoutY="-2.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="408.0" fitWidth="743.0" layoutX="-2.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../sources/background10.jpg" />
          </image>
       </ImageView>
-      <AnchorPane layoutX="361.0" layoutY="30.0" prefHeight="346.0" prefWidth="325.0" style="-fx-background-color: #2F4159;">
+      <AnchorPane layoutX="361.0" layoutY="30.0" prefHeight="346.0" prefWidth="325.0" style="-fx-background-color: #444444;">
          <children>
             <TextField fx:id="txtUser" layoutX="100.0" layoutY="110.0" prefHeight="26.0" prefWidth="200.0" styleClass="text-field" />
             <PasswordField fx:id="txtPassword" layoutX="100.0" layoutY="173.0" prefHeight="26.0" prefWidth="200.0" styleClass="text-field">
@@ -29,7 +29,7 @@
                   <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                </opaqueInsets>
             </PasswordField>
-            <Button layoutX="32.0" layoutY="258.0" mnemonicParsing="false" onAction="#logIn" prefHeight="25.0" prefWidth="179.0" styleClass="buttons" text="Ingresar" textAlignment="CENTER" textFill="WHITE" />
+            <Button layoutX="32.0" layoutY="258.0" mnemonicParsing="false" onAction="#logIn" prefHeight="25.0" prefWidth="110.0" styleClass="buttons" text="Ingresar" textAlignment="CENTER" textFill="WHITE" />
             <Label layoutX="17.0" layoutY="38.0" text="Favor ingrese sus credenciales" textFill="WHITE">
                <font>
                   <Font name="SansSerif Bold" size="12.0" />
@@ -45,14 +45,15 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
+            <Button layoutX="171.0" layoutY="258.0" mnemonicParsing="false" onAction="#salirDelSistema" prefHeight="25.0" prefWidth="110.0" styleClass="buttonsCancelar" text="Salir" textAlignment="CENTER" textFill="WHITE" />
          </children>
       </AnchorPane>
-      <Label layoutX="34.0" layoutY="180.0" text="Bienvenido a la Quiniela APP!" textFill="WHITE">
+      <Label layoutX="34.0" layoutY="180.0" text="Bienvenido a la FutbolitoAPP!" textFill="WHITE">
          <font>
             <Font name="SansSerif Bold" size="18.0" />
          </font>
       </Label>
       <Label layoutX="34.0" layoutY="201.0" prefHeight="46.0" prefWidth="257.0" text="Deseas jugar, divertirte y gana premios, ingresa al sistema" textFill="#e1dbdb" wrapText="true" />
-      <Button layoutX="34.0" layoutY="286.0" mnemonicParsing="false" onAction="#irRegistro" prefHeight="0.0" prefWidth="150.0" styleClass="buttons" text="Registrarse" textAlignment="CENTER" textFill="WHITE" />
+      <Button layoutX="34.0" layoutY="286.0" mnemonicParsing="false" onAction="#irRegistro" prefHeight="0.0" prefWidth="110.0" styleClass="buttons" text="Registrarse" textAlignment="CENTER" textFill="WHITE" />
    </children>
 </AnchorPane>

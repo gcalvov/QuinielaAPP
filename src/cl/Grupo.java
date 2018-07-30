@@ -42,12 +42,16 @@ public class Grupo {
     public String getNombreGrupo() {
         return nombreGrupo;
     }
+    
+    public ArrayList<Equipo> getEquipos() {
+    return listaEquipos;
+    }
 
     public ArrayList<String> getListaEquipos() {
         ArrayList<String> lista = new ArrayList();
-        for (Equipo x:listaEquipos){
+        for (Equipo x : listaEquipos) {
             lista.add(x.toString());
-        
+
         }
         return lista;
     }
@@ -60,13 +64,18 @@ public class Grupo {
         this.nombreGrupo = nombreGrupo;
     }
 
+    public String getListaEquiposAsociados() {
+        String log = "";
+        for (Equipo x : listaEquipos) {
+            log += x.getNombre() +"\n";
+        }
+        return log;
+
+    }
+
     @Override
     public String toString() {
-        return "Grupo{" + "codigo=" + codigo + ", nombreGrupo=" + nombreGrupo + ", listaEquipos=" + getListaEquipos().toString() + '}';
+        return "Grupo{" + "codigo=" + codigo + ", nombreGrupo=" + nombreGrupo + ", listaEquipos=" + getListaEquipos() + '}';
     }
-    
-    
-    
-    
 
 }

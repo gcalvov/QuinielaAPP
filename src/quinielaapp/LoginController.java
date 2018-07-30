@@ -5,6 +5,7 @@
  */
 package quinielaapp;
 
+import gestores.GestorUsuario;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -34,7 +35,6 @@ public class LoginController implements Initializable {
     @FXML
     private Label lblStatus;
 
-
     public void irRegistro(ActionEvent event) throws IOException {
         Parent tableViewParent = FXMLLoader.load(getClass().getResource("Registro.fxml"));
         Scene tableViewScene = new Scene(tableViewParent);
@@ -47,7 +47,14 @@ public class LoginController implements Initializable {
     }
 
     public void logIn(ActionEvent event) throws IOException {
-        if (txtUser.getText().equals("usuario") && txtPassword.getText().equals("pass")) {
+        GestorUsuario miGestor = new GestorUsuario();
+        
+        boolean autorizado = false;
+        
+        autorizado = miGestor.darAccesoUsuario(txtUser.getText(), txtPassword.getText());
+        
+        
+        if (txtUser.getText().equals("admin") && txtPassword.getText().equals("admin")) {
             lblStatus.setText("Credenciales aceptados");
 
             Parent tableViewParent = FXMLLoader.load(getClass().getResource("LandingAdministrador.fxml"));
@@ -59,8 +66,25 @@ public class LoginController implements Initializable {
             window.setScene(tableViewScene);
             window.show();
         } else {
-            lblStatus.setText("¡Acceso denegado! Revise sus credenciales.");
+            if (autorizado) {
+                lblStatus.setText("Credenciales aceptados");
+
+                Parent tableViewParent = FXMLLoader.load(getClass().getResource("Landing.fxml"));
+                Scene tableViewScene = new Scene(tableViewParent);
+
+                //Esta linea toma la informacion del Stage
+                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+                window.setScene(tableViewScene);
+                window.show();
+            } else {
+                lblStatus.setText("¡Acceso denegado! Revise sus credenciales.");
+            }
         }
+    }
+
+    public void salirDelSistema(ActionEvent event) throws IOException {
+        System.exit(0);
     }
 
     @Override

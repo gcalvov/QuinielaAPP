@@ -20,7 +20,6 @@
     -fx-font-size: 12px;
     -fx-font-weight: bold;
     -fx-text-fill: white;
-    -fx-pref-width: 100px;
 
 }
 
@@ -30,7 +29,6 @@
     -fx-font-size: 12px;
     -fx-font-weight: bold;
     -fx-text-fill: white;
-    -fx-pref-width: 100px;
 }
 
 .cuadros{
@@ -144,8 +142,8 @@
 .table-row-cell:odd{
 
     -fx-background-color: #424242;
-/*    -fx-background-color: -fx-table-cell-border-color, #424242;
-        -fx-background-insets: 0, 0 0 1 0;*/
+    /*    -fx-background-color: -fx-table-cell-border-color, #424242;
+            -fx-background-insets: 0, 0 0 1 0;*/
     /*-fx-padding: 0.0em;  0 */  
     -fx-border-style: none;
 }
@@ -174,19 +172,41 @@
 
 
 .botonSalir {
-  -fx-background-color: white, white;
-  -fx-background-radius: 16.4, 15;
-  -fx-background-insets: -1.4, 0;
-  -fx-border-radius: 15;
-  -fx-border-width: 2;
-  -fx-border-color: dimgrey;
-  -fx-padding: 0;
-  -fx-font-size: 0;
-  -fx-text-fill: black;
-  -fx-pref-width: 100px;
+    -fx-background-color: white, white;
+    -fx-background-radius: 16.4, 15;
+    -fx-background-insets: -1.4, 0;
+    -fx-border-radius: 15;
+    -fx-border-width: 2;
+    -fx-border-color: dimgrey;
+    -fx-padding: 0;
+    -fx-font-size: 0;
+    -fx-text-fill: black;
+    -fx-pref-width: 100px;
 }
 
 .botonSalir:focused {
-  -fx-background-color: -fx-focus-color, white;
+    -fx-background-color: -fx-focus-color, white;
+}
+
+.list-view {
+    -fx-background-color: transparent;
+    -fx-font-size: 10px;
+    -fx-text-alignment: center;
+    -fx-text-fill: white;
+    -fx-text-overrun: clip;
+
+}
+
+
+.list-view .list-cell:even {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-text-alignment: center;
+
+}
+.list-view .list-cell:odd {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-text-alignment: center;
 }
 

@@ -6,6 +6,7 @@
 package gestores;
 
 import cl.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -25,6 +26,10 @@ public class GestorEquipos extends Gestor {
 
     public String[] listarEquipos() {
         return cl.listarEquipos();
+    }
+    
+    public ArrayList<Equipo> getListaEquipos(){
+    return cl.getListaEquipos();
     }
 
 }
