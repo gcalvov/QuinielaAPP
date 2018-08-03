@@ -19,7 +19,7 @@ public class Mundial {
     private String paisOrganizador;
     private boolean estado;
     private ArrayList<Grupo> listaGrupos;
-    private ArrayList<Partido> listaPartidos;
+    private ArrayList<Cronograma> listaPartidos;
     private ArrayList<Liga> listaLigas;
 
     public Mundial() {
@@ -32,14 +32,12 @@ public class Mundial {
         this.listaGrupos = plistaGrupos;
     }
 
-    public void setListaPartidos(ArrayList<Partido> listaPartidos) {
-        if (listaPartidos == null){
-        listaPartidos = new ArrayList();
+    public void setListaPartidos(ArrayList<Cronograma> listaPartidos) {
+        if (listaPartidos == null) {
+            listaPartidos = new ArrayList();
         }
         this.listaPartidos = listaPartidos;
     }
-    
-    
 
     public ArrayList<Liga> getListaLigas() {
         if (listaLigas == null) {
@@ -67,7 +65,7 @@ public class Mundial {
                 activa = "inactiva";
             }
 
-            lista.add("- " +x.getNombre() + ", " + estatus+", "+activa);
+            lista.add("- " + x.getNombre() + ", " + estatus + ", " + activa);
         }
         return lista;
     }
@@ -115,14 +113,22 @@ public class Mundial {
 
     }
 
-    public ArrayList<Partido> getCronograma() {
+    public ArrayList<Cronograma> getCronograma() {
         return listaPartidos;
     }
 
     public ArrayList<String> getListaPartidos() {
         ArrayList<String> lista = new ArrayList();
-        for (Partido x : listaPartidos) {
-            lista.add(x.getEquipo1().getNombre() + " - " + x.getEquipo2().getNombre() + "/" +x.getFecha().toString());
+        for (Cronograma x : listaPartidos) {
+            lista.add(x.getEquipo1().getNombre() + " - " + x.getEquipo2().getNombre() + "/" + x.getFecha().toString());
+        }
+        return lista;
+    }
+
+    public ArrayList<String> getListaPartidosCompleto() {
+        ArrayList<String> lista = new ArrayList();
+        for (Cronograma x : listaPartidos) {
+            lista.add(x.getCodigo()+")"+x.getEquipo1().getNombre() + " - " + x.getEquipo2().getNombre() + "/" + x.getFecha().toString()+",fase:"+x.getFase());
         }
         return lista;
     }

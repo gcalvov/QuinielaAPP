@@ -17,6 +17,11 @@ public class Usuario {
     private String apellido;
     private String avatar;
     private String nombreUsuario;
+    
+    //anhadir estos atributos
+    private int puntos;
+
+    
 
     public Usuario() {
     }

@@ -5,17 +5,7 @@
  */
 package cl;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
-
-//de momento estoy haciendo que se generen de manera aleatoria los equipos.
-import java.util.Random;
 
 /**
  *
@@ -281,64 +271,6 @@ public class CL {
         listaEquipos.add(nuevoEquipo100);
     }
 
-    public void registrarMundialRandom(LocalDate fecha, String pais, boolean estado) {
-
-        //Carga los grupos de momento ya que no tenemos base de datos.
-        if (listaEquipos == null) {
-            listaEquipos = new ArrayList();
-            equiposIniciales();
-        }
-
-        if (listaMundiales == null) {
-            listaMundiales = new ArrayList();
-        }
-
-        //  generea un numero random para anhadir equipos aleatoriamente.
-        Random rand = new Random();
-
-        //almacena los equipos de un mundial
-        ArrayList<Equipo> equiposMundial = new ArrayList();
-        ArrayList<Grupo> gruposMundial = new ArrayList();
-
-        int counter = 0;
-        boolean registrar = true;
-        while (counter < (cantGruposMundial * cantEquiposGrupo)) {
-            registrar = true;
-            Equipo equipoMas = listaEquipos.get(rand.nextInt(listaEquipos.size()));
-            for (int i = 0; i < equiposMundial.size(); i++) {
-                if (equiposMundial.get(i).equals(equipoMas)) {
-                    registrar = false;
-                }
-            }
-            if (registrar) {
-                equiposMundial.add(equipoMas);
-                counter++;
-            }
-        }
-
-        for (int i = 0; i < cantGruposMundial; i++) {
-            String codigo = "COD " + String.valueOf((char) (i + 65));
-            String nombre = String.valueOf((char) (i + 65));
-            ArrayList<Equipo> equiposGrupo = new ArrayList();
-            Equipo equipo1 = equiposMundial.get(i * cantEquiposGrupo);
-            Equipo equipo2 = equiposMundial.get(i * cantEquiposGrupo + 1);
-            Equipo equipo3 = equiposMundial.get(i * cantEquiposGrupo + 2);
-            Equipo equipo4 = equiposMundial.get(i * cantEquiposGrupo + 3);
-            equiposGrupo.add(equipo1);
-            equiposGrupo.add(equipo2);
-            equiposGrupo.add(equipo3);
-            equiposGrupo.add(equipo4);
-
-            Grupo grupoX = new Grupo(codigo, nombre, equiposGrupo);
-            gruposMundial.add(grupoX);
-        }
-
-        Mundial mundialRandom = new Mundial(fecha, pais, estado, gruposMundial);
-
-        listaMundiales.add(mundialRandom);
-
-    }
-
     public void setMundial(Mundial mundialNuevo) {
         if (listaMundiales == null) {
             listaMundiales = new ArrayList();
@@ -353,29 +285,14 @@ public class CL {
         return listaMundiales;
     }
 
-    public ArrayList<String> listarEquiposMundial() {
-
-        ArrayList<String> informacionMundial = new ArrayList();
-
-        for (Mundial dato : listaMundiales) {
-            informacionMundial.add("Año: " + dato.getAnho() + ", Mundial: " + dato.getPaisOrganizador());
-            for (Grupo x : dato.getListaGrupos()) {
-                informacionMundial.add("Grupo " + x.getNombreGrupo() + "\n" + x.getListaEquiposAsociados());
-            }
-
-        }
-        return informacionMundial;
-    }
-
-    public ArrayList<String> listarCronogramaMundial(String pais) {
-        ArrayList<String> cronogramaMundial = new ArrayList();
-
-        for (Mundial dato : listaMundiales) {
-            if (dato.getPaisOrganizador().equals(pais)) {
-                cronogramaMundial = dato.getListaPartidos();
+    public Mundial buscarMundial(String pais) {
+        Mundial buscado = new Mundial();
+        for (Mundial x : listaMundiales) {
+            if (x.getPaisOrganizador().equals(pais)) {
+                buscado = x;
             }
         }
-        return cronogramaMundial;
+        return buscado;
     }
 
     public void setUsuario(Usuario usuarioX) {

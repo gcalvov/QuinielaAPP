@@ -17,7 +17,7 @@ public class GestorEquipos extends Gestor {
     public GestorEquipos() {
     }
 
-    public String registrarEquipos(String iso, String nombre, int rankinFIFA) {
+    public String setEquipo(String iso, String nombre, int rankinFIFA) {
         String log = "";
         Equipo equipoNuevo = new Equipo(iso, nombre, rankinFIFA);
         log = cl.setEquipos(equipoNuevo);

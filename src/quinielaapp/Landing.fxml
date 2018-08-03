@@ -2,12 +2,25 @@
 
 <?import java.lang.String?>
 <?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="575.0" prefWidth="1000.0" style="-fx-background-color: #070A0F;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="quinielaapp.LandingController">
     <stylesheets>
@@ -15,31 +28,258 @@
     </stylesheets>
     
     <children>
-      <ImageView fitHeight="583.0" fitWidth="1020.0" layoutX="1.0" layoutY="1.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="583.0" fitWidth="1100.0" layoutX="1.0" layoutY="1.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../sources/background10.jpg" />
          </image>
       </ImageView>
-      <TabPane layoutX="14.0" layoutY="14.0" prefHeight="516.0" prefWidth="965.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="3.0" layoutY="3.0" prefHeight="575.0" prefWidth="1031.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Cronograma">
+            <Tab text="Juego">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox layoutX="61.0" layoutY="23.0" prefHeight="53.0" prefWidth="450.0" spacing="20.0">
+                           <children>
+                              <VBox prefHeight="53.0" prefWidth="150.0" spacing="50.0">
+                                 <children>
+                                    <Label prefHeight="25.0" prefWidth="150.0" text="Seleccione mundial:" textFill="WHITE" />
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="334.0" prefWidth="185.0" spacing="50.0">
+                                 <children>
+                                    <ComboBox fx:id="comboBoxMundiales" prefHeight="22.0" prefWidth="150.0" />
+                                 </children>
+                              </VBox>
+                              <Button mnemonicParsing="false" onAction="#llenarInformacion" prefHeight="25.0" prefWidth="100.0" styleClass="buttons" text="Ver" />
+                           </children>
+                        </HBox>
+                        <TableView fx:id="tableViewCronograma" editable="true" layoutX="194.0" layoutY="86.0" prefHeight="400.0" prefWidth="692.0">
+                           <columns>
+                              <TableColumn fx:id="columnaFecha" prefWidth="100.0" resizable="false" text="Fecha" />
+                              <TableColumn fx:id="columnaFase" prefWidth="100.0" resizable="false" text="Fase" />
+                              <TableColumn fx:id="columnaEquipo1" prefWidth="200.0" resizable="false" text="Equipo 1" />
+                              <TableColumn fx:id="columnaGoles1" prefWidth="40.0" resizable="false" text="Goles" />
+                              <TableColumn fx:id="columnaEquipo2" prefWidth="200.0" resizable="false" text="Equipo 2" />
+                              <TableColumn fx:id="columnaGoles2" prefWidth="40.0" resizable="false" text="Goles" />
+                           </columns>
+                        </TableView>
+                        <Button layoutX="199.0" layoutY="498.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="140.0" styleClass="buttons" text="Guardar resultados" />
+                        <Label layoutX="362.0" layoutY="502.0" text="*Una vez que registre los resultados, estos son definitivos" textFill="WHITE" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+          <Tab text="Ligas">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="519.0" prefWidth="1031.0">
+                     <children>
+                        <HBox layoutX="73.0" layoutY="110.0" prefHeight="272.0" prefWidth="400.0">
+                           <children>
+                              <VBox prefHeight="241.0" prefWidth="200.0" spacing="50.0">
+                                 <children>
+                                    <Label prefHeight="25.0" prefWidth="191.0" text="Nombre de la liga:" textFill="WHITE" />
+                                    <Label prefHeight="25.0" prefWidth="185.0" text="Fecha de creación:" textFill="WHITE" />
+                                    <Label prefHeight="25.0" prefWidth="189.0" text="Estatus:" textFill="WHITE" />
+                                    <Label prefHeight="25.0" prefWidth="189.0" text="Seleccione mundial:" textFill="WHITE" />
+                                    <Label prefHeight="25.0" prefWidth="189.0" text="Seleccione amigos a incluir:" textFill="WHITE" />
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="334.0" prefWidth="200.0" spacing="50.0">
+                                 <children>
+                                    <TextField prefHeight="25.0" />
+                                    <DatePicker prefHeight="26.0" prefWidth="194.0" />
+                                    <HBox prefHeight="24.0" prefWidth="185.0">
+                                       <children>
+                                          <RadioButton mnemonicParsing="false" prefWidth="100.0" text="Activa" textFill="WHITE">
+                                             <padding>
+                                                <Insets right="10.0" />
+                                             </padding>
+                                          </RadioButton>
+                                          <RadioButton mnemonicParsing="false" text="Inactiva" textFill="WHITE">
+                                             <padding>
+                                                <Insets left="10.0" />
+                                             </padding>
+                                          </RadioButton>
+                                       </children>
+                                    </HBox>
+                                    <ComboBox prefWidth="200.0" />
+                                    <ComboBox prefWidth="200.0" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox layoutX="129.0" layoutY="472.0" prefHeight="57.0" prefWidth="276.0" spacing="30.0">
+                           <children>
+                              <Button mnemonicParsing="false" prefWidth="140.0" styleClass="buttons" text="Registrar" />
+                              <Button mnemonicParsing="false" prefWidth="140.0" styleClass="buttonsCancelar" text="Cancelar" />
+                           </children>
+                        </HBox>
+                        <Label layoutX="73.0" layoutY="47.0" prefHeight="25.0" prefWidth="348.0" text="Formulario de registro de ligas privadas:" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <VBox layoutX="597.0" layoutY="110.0" prefHeight="200.0" prefWidth="258.0" spacing="5.0">
+                           <children>
+                              <Label prefHeight="25.0" prefWidth="191.0" text="Integrantes:" textFill="WHITE">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets bottom="10.0" />
+                                 </padding>
+                              </Label>
+                              <Line endX="250.0" stroke="WHITE" />
+                              <ListView prefHeight="200.0" prefWidth="200.0" />
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
             </content>
           </Tab>
-          <Tab text="Llaves">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </Tab>
+            <Tab text="Cronograma">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox layoutX="42.0" layoutY="81.0" prefHeight="400.0" prefWidth="950.0">
+                           <children>
+                              <VBox prefHeight="381.0" prefWidth="200.0">
+                                 <children>
+                                    <VBox prefHeight="200.0" prefWidth="133.0" spacing="5.0">
+                                       <children>
+                                          <TextField promptText="Grupo:" text="Grupo A" />
+                                          <ListView fx:id="lviewCronograma1" prefHeight="180.0" prefWidth="200.0" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="137.0" spacing="5.0">
+                                       <children>
+                                          <TextField promptText="Grupo:" text="Grupo E">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </TextField>
+                                          <ListView fx:id="lviewCronograma5" prefHeight="180.0" prefWidth="200.0" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets left="25.0" right="25.0" />
+                                 </HBox.margin>
+                              </VBox>
+                              <VBox prefHeight="381.0" prefWidth="200.0">
+                                 <children>
+                                    <VBox prefHeight="200.0" prefWidth="137.0" spacing="5.0">
+                                       <children>
+                                          <TextField promptText="Grupo:" text="Grupo B" />
+                                          <ListView fx:id="lviewCronograma2" prefHeight="200.0" prefWidth="200.0" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="137.0" spacing="5.0">
+                                       <children>
+                                          <TextField promptText="Grupo:" text="Grupo F">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </TextField>
+                                          <ListView fx:id="lviewCronograma6" prefHeight="220.0" prefWidth="200.0" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets left="25.0" right="25.0" />
+                                 </HBox.margin>
+                              </VBox>
+                              <VBox prefHeight="381.0" prefWidth="200.0">
+                                 <children>
+                                    <VBox prefHeight="200.0" prefWidth="137.0" spacing="5.0">
+                                       <children>
+                                          <TextField promptText="Grupo:" text="Grupo C" />
+                                          <ListView fx:id="lviewCronograma3" prefHeight="200.0" prefWidth="200.0" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="137.0" spacing="5.0">
+                                       <children>
+                                          <TextField promptText="Grupo:" text="Grupo G">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </TextField>
+                                          <ListView fx:id="lviewCronograma7" prefHeight="220.0" prefWidth="200.0" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets left="25.0" right="25.0" />
+                                 </HBox.margin>
+                              </VBox>
+                              <VBox prefHeight="381.0" prefWidth="200.0">
+                                 <children>
+                                    <VBox prefHeight="200.0" prefWidth="137.0" spacing="5.0">
+                                       <children>
+                                          <TextField promptText="Grupo:" text="Grupo D" />
+                                          <ListView fx:id="lviewCronograma4" prefHeight="200.0" prefWidth="200.0" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="137.0" spacing="5.0">
+                                       <children>
+                                          <TextField promptText="Grupo:" text="Grupo H">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </TextField>
+                                          <ListView fx:id="lviewCronograma8" prefHeight="220.0" prefWidth="200.0" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets left="25.0" right="25.0" />
+                                 </HBox.margin>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox layoutX="61.0" layoutY="23.0" prefHeight="53.0" prefWidth="450.0" spacing="20.0">
+                           <children>
+                              <VBox prefHeight="53.0" prefWidth="150.0" spacing="50.0">
+                                 <children>
+                                    <Label prefHeight="25.0" prefWidth="150.0" text="Seleccione mundial:" textFill="WHITE" />
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="334.0" prefWidth="185.0" spacing="50.0">
+                                 <children>
+                                    <ComboBox fx:id="comboBoxMundiales2" prefWidth="150.0" />
+                                 </children>
+                              </VBox>
+                              <Button mnemonicParsing="false" onAction="#rellenarCronograma" prefHeight="25.0" prefWidth="100.0" styleClass="buttons" text="Ver" />
+                           </children>
+                        </HBox>
+                     </children></AnchorPane>
+               </content>
+            </Tab>
             <Tab text="Posiciones">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox layoutX="353.0" layoutY="53.0" prefHeight="200.0" prefWidth="258.0" spacing="5.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="27.0" prefWidth="387.0" text="¡Top 10!" textFill="WHITE">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Line endX="250.0" stroke="WHITE" />
+                              <ListView prefHeight="200.0" prefWidth="200.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
                </content>
             </Tab>
         </tabs>
       </TabPane>
-      <Button layoutX="865.0" layoutY="541.0" mnemonicParsing="false" onAction="#salirDelSistema" prefHeight="21.0" prefWidth="51.0" text="Salir">
+      <Button layoutX="930.0" layoutY="7.0" mnemonicParsing="false" onAction="#salirDelSistema" prefHeight="21.0" prefWidth="51.0" text="Cerrar sesión">
          <styleClass>
             <String fx:value="buttons" />
             <String fx:value="botonSalir" />

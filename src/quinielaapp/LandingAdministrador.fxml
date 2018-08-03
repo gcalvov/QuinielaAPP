@@ -4,7 +4,7 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -32,13 +32,13 @@
             <Image url="@../sources/background10.jpg" />
          </image>
       </ImageView>
-      <TabPane layoutX="25.0" layoutY="26.0" prefHeight="520.0" prefWidth="945.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="10.0" layoutY="3.0" prefHeight="563.0" prefWidth="982.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Equipos">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <HBox layoutX="581.0" layoutY="80.0" prefHeight="224.0" prefWidth="314.0">
+                        <HBox layoutX="581.0" layoutY="117.0" prefHeight="224.0" prefWidth="314.0">
                            <children>
                               <VBox prefHeight="241.0" prefWidth="113.0" spacing="50.0">
                                  <children>
@@ -56,17 +56,17 @@
                               </VBox>
                            </children>
                         </HBox>
-                        <Label layoutX="33.0" layoutY="34.0" prefHeight="25.0" prefWidth="162.0" text="Lista de Equipos" textFill="WHITE">
+                        <Label layoutX="57.0" layoutY="34.0" prefHeight="25.0" prefWidth="162.0" text="Lista de Equipos" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <Label layoutX="527.0" layoutY="34.0" prefHeight="25.0" prefWidth="191.0" text="Formulario de equipos:" textFill="WHITE">
+                        <Label layoutX="581.0" layoutY="71.0" prefHeight="25.0" prefWidth="191.0" text="Formulario de equipos:" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <TableView fx:id="tableView" layoutX="53.0" layoutY="77.0" prefHeight="334.0" prefWidth="408.0" styleClass="tabla">
+                        <TableView fx:id="tableViewEquipos" layoutX="53.0" layoutY="77.0" prefHeight="334.0" prefWidth="408.0" styleClass="tabla">
                           <columns>
                             <TableColumn fx:id="isoColumn" onEditStart="#modificarEquipo" prefWidth="89.6666259765625" text="ISO" />
                             <TableColumn fx:id="nombreColumn" prefWidth="173.3333740234375" text="Nombre" />
@@ -82,7 +82,7 @@
                               <Font size="10.0" />
                            </font>
                         </Label>
-                        <HBox layoutX="582.0" layoutY="316.0" prefHeight="61.0" prefWidth="295.0">
+                        <HBox layoutX="582.0" layoutY="350.0" prefHeight="61.0" prefWidth="295.0">
                            <children>
                               <StackPane alignment="TOP_CENTER" prefHeight="100.0" prefWidth="165.0">
                                  <children>
@@ -102,21 +102,26 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab text="Mundiales">
+            <Tab text="Registrar mundial">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <VBox layoutX="65.0" layoutY="123.0" prefHeight="308.0" prefWidth="300.0">
+                        <VBox layoutX="60.0" layoutY="97.0" prefHeight="356.0" prefWidth="300.0">
                            <children>
-                              <HBox prefHeight="280.0" prefWidth="300.0">
+                              <HBox prefHeight="332.0" prefWidth="300.0">
                                  <children>
-                                    <VBox prefHeight="241.0" prefWidth="150.0" spacing="38.0">
+                                    <VBox prefHeight="349.0" prefWidth="150.0" spacing="38.0">
                                        <children>
                                           <Label prefHeight="25.0" prefWidth="191.0" text="Pais anfitrión:" textFill="WHITE" />
-                                          <Label prefHeight="25.0" prefWidth="185.0" text="Fecha:" textFill="WHITE" />
+                                          <Label prefHeight="25.0" prefWidth="185.0" text="Fecha de inicio:" textFill="WHITE" />
                                           <Label prefHeight="25.0" prefWidth="189.0" text="Estado:" textFill="WHITE" />
                                           <Label fx:id="lblListaEquipos" text="Lista de equipos:" textFill="WHITE" />
                                           <Label fx:id="lblAnhadirEquiposMundial" text="Oprima para añadir equipo:" textFill="WHITE" />
+                                          <Button fx:id="btnRegistrarMundial" mnemonicParsing="false" onAction="#registrarMundial" prefHeight="25.0" prefWidth="140.0" styleClass="buttons" text="Registrar">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </Button>
                                        </children>
                                     </VBox>
                                     <VBox prefHeight="334.0" prefWidth="150.0" spacing="35.0">
@@ -137,20 +142,30 @@
                                                 </RadioButton>
                                              </children>
                                           </HBox>
-                                          <ChoiceBox fx:id="choiceBoxEquipos" prefHeight="25.0" prefWidth="150.0" />
-                                          <Button fx:id="btnAnhadirEquipoMundial" alignment="CENTER" mnemonicParsing="false" onAction="#anhadirEquiposMundial" prefHeight="25.0" prefWidth="148.0" styleClass="buttons" text="Añadir" />
+                                          <ComboBox fx:id="comboBoxEquipos" prefWidth="150.0" />
+                                          <StackPane prefHeight="150.0" prefWidth="200.0">
+                                             <children>
+                                                <Button fx:id="btnAnhadirEquipoMundial" alignment="CENTER" mnemonicParsing="false" onAction="#anhadirEquiposMundial" prefHeight="25.0" prefWidth="140.0" styleClass="buttons" text="Añadir" />
+                                             </children>
+                                          </StackPane>
+                                          <StackPane prefHeight="12.0" prefWidth="150.0">
+                                             <children>
+                                                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#cancelarRegistroMundial" prefHeight="25.0" prefWidth="140.0" styleClass="buttonsCancelar" text="Cancelar" />
+                                             </children>
+                                          </StackPane>
                                        </children>
                                     </VBox>
                                  </children>
                               </HBox>
                            </children>
                         </VBox>
-                        <Label layoutX="33.0" layoutY="84.0" prefHeight="25.0" prefWidth="198.0" text="Formulario de Mundiales:" textFill="WHITE">
+                        <Label layoutX="61.0" layoutY="50.0" prefHeight="25.0" prefWidth="198.0" text="Formulario de Mundiales:" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <HBox layoutX="415.0" layoutY="19.0" prefHeight="440.0" prefWidth="537.0">
+                        <VBox layoutX="90.0" layoutY="434.0" prefHeight="100.0" prefWidth="136.0" />
+                        <HBox layoutX="386.0" layoutY="57.0" prefHeight="440.0" prefWidth="581.0">
                            <children>
                               <VBox prefHeight="381.0" prefWidth="150.0">
                                  <children>
@@ -164,7 +179,7 @@
                                        <children>
                                           <TextField fx:id="txtGrupo4" promptText="Grupo:" text="Grupo D">
                                              <VBox.margin>
-                                                <Insets top="10.0" />
+                                                <Insets />
                                              </VBox.margin>
                                           </TextField>
                                           <ListView fx:id="lviewGrupo4" prefHeight="220.0" prefWidth="200.0" />
@@ -174,7 +189,7 @@
                                        <children>
                                           <TextField fx:id="txtGrupo7" promptText="Grupo:" text="Grupo G">
                                              <VBox.margin>
-                                                <Insets top="10.0" />
+                                                <Insets />
                                              </VBox.margin>
                                           </TextField>
                                           <ListView fx:id="lviewGrupo7" prefHeight="220.0" prefWidth="200.0" />
@@ -197,7 +212,7 @@
                                        <children>
                                           <TextField fx:id="txtGrupo5" promptText="Grupo:" text="Grupo E">
                                              <VBox.margin>
-                                                <Insets top="10.0" />
+                                                <Insets />
                                              </VBox.margin>
                                           </TextField>
                                           <ListView fx:id="lviewGrupo5" prefHeight="220.0" prefWidth="200.0" />
@@ -207,7 +222,7 @@
                                        <children>
                                           <TextField fx:id="txtGrupo8" promptText="Grupo:" text="Grupo H">
                                              <VBox.margin>
-                                                <Insets top="10.0" />
+                                                <Insets />
                                              </VBox.margin>
                                           </TextField>
                                           <ListView fx:id="lviewGrupo8" prefHeight="200.0" prefWidth="200.0" />
@@ -230,7 +245,7 @@
                                        <children>
                                           <TextField fx:id="txtGrupo6" promptText="Grupo:" text="Grupo F">
                                              <VBox.margin>
-                                                <Insets top="10.0" />
+                                                <Insets />
                                              </VBox.margin>
                                           </TextField>
                                           <ListView fx:id="lviewGrupo6" prefHeight="220.0" prefWidth="200.0" />
@@ -243,16 +258,7 @@
                               </VBox>
                            </children>
                         </HBox>
-                        <VBox layoutX="821.0" layoutY="347.0" prefHeight="100.0" prefWidth="136.0">
-                           <children>
-                              <Button mnemonicParsing="false" onAction="#registrarMundial" prefWidth="120.0" styleClass="buttons" text="Registrar">
-                                 <VBox.margin>
-                                    <Insets bottom="30.0" />
-                                 </VBox.margin>
-                              </Button>
-                              <Button mnemonicParsing="false" onAction="#cancelarRegistroMundial" prefWidth="120.0" styleClass="buttonsCancelar" text="Cancelar" />
-                           </children>
-                        </VBox>
+                        <Label layoutX="410.0" layoutY="28.0" text="* Si desea puede cambiar el nombre del grupo" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                </content>
@@ -261,14 +267,14 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <HBox layoutX="117.0" layoutY="97.0" prefHeight="272.0" prefWidth="337.0">
+                        <HBox layoutX="73.0" layoutY="97.0" prefHeight="272.0" prefWidth="337.0">
                            <children>
-                              <VBox prefHeight="241.0" prefWidth="113.0" spacing="50.0">
+                              <VBox prefHeight="241.0" prefWidth="150.0" spacing="50.0">
                                  <children>
                                     <Label prefHeight="25.0" prefWidth="191.0" text="Nombre de la liga:" textFill="WHITE" />
                                     <Label prefHeight="25.0" prefWidth="185.0" text="Fecha de creación:" textFill="WHITE" />
                                     <Label prefHeight="25.0" prefWidth="189.0" text="Estatus:" textFill="WHITE" />
-                                    <Label prefHeight="25.0" prefWidth="189.0" text="Mundiales:" textFill="WHITE" />
+                                    <Label prefHeight="25.0" prefWidth="189.0" text="Seleccione mundial:" textFill="WHITE" />
                                  </children>
                               </VBox>
                               <VBox prefHeight="334.0" prefWidth="185.0" spacing="50.0">
@@ -289,7 +295,7 @@
                                           </RadioButton>
                                        </children>
                                     </HBox>
-                                    <ChoiceBox fx:id="choiceBoxlistaMundiales" prefHeight="25.0" prefWidth="194.0" />
+                                    <ComboBox fx:id="comboBoxlistaMundiales" prefHeight="22.0" prefWidth="233.0" />
                                  </children>
                               </VBox>
                            </children>
@@ -299,46 +305,46 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <HBox layoutX="133.0" layoutY="390.0" prefHeight="57.0" prefWidth="276.0" spacing="30.0">
+                        <HBox layoutX="97.0" layoutY="390.0" prefHeight="57.0" prefWidth="276.0" spacing="30.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#registrarLiga" prefWidth="110.0" styleClass="buttons" text="Registrar" />
-                              <Button mnemonicParsing="false" onAction="#cancelarRegistroLiga" prefWidth="110.0" styleClass="buttonsCancelar" text="Cancelar" />
+                              <Button mnemonicParsing="false" onAction="#registrarLiga" prefWidth="140.0" styleClass="buttons" text="Registrar" />
+                              <Button mnemonicParsing="false" onAction="#cancelarRegistroLiga" prefWidth="140.0" styleClass="buttonsCancelar" text="Cancelar" />
                            </children>
                         </HBox>
-                        <Label layoutX="488.0" layoutY="51.0" prefHeight="25.0" prefWidth="162.0" text="Listado de ligas:" textFill="WHITE">
+                        <Label layoutX="488.0" layoutY="51.0" prefHeight="25.0" prefWidth="197.0" text="Lista de ligas registradas:" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <ListView fx:id="lViewLigas" layoutX="516.0" layoutY="97.0" prefHeight="303.0" prefWidth="304.0" />
+                        <ListView fx:id="lViewLigas" layoutX="490.0" layoutY="104.0" prefHeight="303.0" prefWidth="304.0" />
                      </children>
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab onSelectionChanged="#rellenarMundiales" text="Cronogramas">
+            <Tab onSelectionChanged="#rellenarMundiales" text="Cronograma">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <HBox layoutX="32.0" layoutY="17.0" prefHeight="53.0" prefWidth="402.0" spacing="20.0">
+                        <HBox layoutX="32.0" layoutY="17.0" prefHeight="53.0" prefWidth="450.0" spacing="20.0">
                            <children>
-                              <VBox prefHeight="53.0" prefWidth="88.0" spacing="50.0">
+                              <VBox prefHeight="53.0" prefWidth="150.0" spacing="50.0">
                                  <children>
-                                    <Label prefHeight="25.0" prefWidth="69.0" text="Mundial:" textFill="WHITE" />
+                                    <Label prefHeight="25.0" prefWidth="150.0" text="Seleccione mundial:" textFill="WHITE" />
                                  </children>
                               </VBox>
                               <VBox prefHeight="334.0" prefWidth="185.0" spacing="50.0">
                                  <children>
-                                    <ChoiceBox fx:id="choiceBoxlistaMundiales2" prefHeight="25.0" prefWidth="194.0" />
+                                    <ComboBox fx:id="comboBoxlistaMundiales2" prefHeight="22.0" prefWidth="167.0" />
                                  </children>
                               </VBox>
-                              <Button mnemonicParsing="false" onAction="#rellenarCronograma" prefHeight="25.0" prefWidth="63.0" styleClass="buttons" text="Ver" />
+                              <Button mnemonicParsing="false" onAction="#rellenarCronograma" prefHeight="25.0" prefWidth="100.0" styleClass="buttons" text="Ver" />
                            </children>
                         </HBox>
-                        <HBox layoutX="2.0" layoutY="60.0" prefHeight="400.0" prefWidth="950.0">
+                        <HBox layoutX="2.0" layoutY="72.0" prefHeight="400.0" prefWidth="950.0">
                            <children>
                               <VBox prefHeight="381.0" prefWidth="200.0">
                                  <children>
-                                    <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+                                    <VBox prefHeight="200.0" prefWidth="133.0" spacing="5.0">
                                        <children>
                                           <TextField promptText="Grupo:" text="Grupo A" />
                                           <ListView fx:id="lviewCronograma1" prefHeight="180.0" prefWidth="200.0" />
@@ -434,9 +440,47 @@
                   </AnchorPane>
                </content>
             </Tab>
+            <Tab onSelectionChanged="#rellenarMundiales" text="Actualizar resultados">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox layoutX="32.0" layoutY="17.0" prefHeight="25.0" prefWidth="450.0" spacing="20.0">
+                           <children>
+                              <VBox prefHeight="25.0" prefWidth="150.0" spacing="50.0">
+                                 <children>
+                                    <Label prefHeight="25.0" prefWidth="150.0" text="Seleccione mundial:" textFill="WHITE" />
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="334.0" prefWidth="185.0" spacing="50.0">
+                                 <children>
+                                    <ComboBox fx:id="comboBoxlistaMundiales3" prefWidth="150.0" />
+                                 </children>
+                              </VBox>
+                              <Button mnemonicParsing="false" onAction="#llenarInformacion" prefHeight="25.0" prefWidth="100.0" styleClass="buttons" text="Ver" />
+                           </children>
+                        </HBox>
+                        <HBox layoutX="123.0" layoutY="66.0" prefHeight="400.0" prefWidth="699.0">
+                           <children>
+                              <TableView fx:id="tableViewCronograma" editable="true" prefHeight="400.0" prefWidth="692.0">
+                                <columns>
+                                  <TableColumn fx:id="columnaFecha" prefWidth="100.0" resizable="false" text="Fecha" />
+                                  <TableColumn fx:id="columnaFase" prefWidth="100.0" resizable="false" text="Fase" />
+                                    <TableColumn fx:id="columnaEquipo1" prefWidth="200.0" resizable="false" text="Equipo 1" />
+                                    <TableColumn fx:id="columnaGoles1" onEditCommit="#cambioResultadoEquipo1" prefWidth="40.0" resizable="false" text="Goles" />
+                                    <TableColumn fx:id="columnaEquipo2" prefWidth="200.0" resizable="false" text="Equipo 2" />
+                                    <TableColumn fx:id="columnaGoles2" onEditCommit="#cambioResultadoEquipo2" prefWidth="40.0" resizable="false" text="Goles" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </HBox>
+                        <Button layoutX="132.0" layoutY="485.0" mnemonicParsing="false" onAction="#guardarResultadosMundial" prefHeight="25.0" prefWidth="140.0" styleClass="buttons" text="Guardar resultados" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
         </tabs>
       </TabPane>
-      <Button fx:id="btnSalir" layoutX="855.0" layoutY="531.0" mnemonicParsing="false" onAction="#salirDelSistema" prefHeight="21.0" prefWidth="51.0" text="Salir">
+      <Button fx:id="btnSalir" layoutX="890.0" layoutY="10.0" mnemonicParsing="false" onAction="#salirDelSistema" prefHeight="21.0" prefWidth="51.0" text="Cerrar sesión">
          <styleClass>
             <String fx:value="buttons" />
             <String fx:value="botonSalir" />

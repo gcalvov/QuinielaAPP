@@ -11,15 +11,19 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -30,6 +34,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -38,15 +43,31 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class LandingAdministradorController implements Initializable {
 
-    //Aqui defino el tableView para los equipos
+    //Aqui defino el tableViewEquipos para los equipos
     @FXML
-    private TableView<Equipo> tableView;
+    private TableView<Equipo> tableViewEquipos;
     @FXML
     private TableColumn<Equipo, String> isoColumn;
     @FXML
     private TableColumn<Equipo, String> nombreColumn;
     @FXML
     private TableColumn<Equipo, String> rankingColumn;
+
+    //Aqui defino el tableViewCronomgrama para setear resultados
+    @FXML
+    private TableView<CronogramaUI> tableViewCronograma;
+    @FXML
+    private TableColumn<CronogramaUI, String> columnaEquipo1;
+    @FXML
+    private TableColumn<CronogramaUI, String> columnaEquipo2;
+    @FXML
+    private TableColumn<CronogramaUI, String> columnaFecha;
+    @FXML
+    private TableColumn<CronogramaUI, String> columnaFase;
+    @FXML
+    private TableColumn<CronogramaUI, TextField> columnaGoles1;
+    @FXML
+    private TableColumn<CronogramaUI, TextField> columnaGoles2;
 
     // Aqui defino los botones
     @FXML
@@ -59,6 +80,8 @@ public class LandingAdministradorController implements Initializable {
     private Button btnRegistrar;
     @FXML
     private Button btnAnhadirEquipoMundial;
+    @FXML
+    private Button btnRegistrarMundial;
 
     // Aqui defino labels
     @FXML
@@ -114,13 +137,15 @@ public class LandingAdministradorController implements Initializable {
 
     // Aqui defino los equipos que van a ir dentro del choiceBox
     @FXML
-    private ChoiceBox choiceBoxEquipos;
+    private ComboBox comboBoxEquipos;
 
     // Aqui listo mundiales que van en el choiceBox
     @FXML
-    private ChoiceBox choiceBoxlistaMundiales;
+    private ComboBox comboBoxlistaMundiales;
     @FXML
-    private ChoiceBox choiceBoxlistaMundiales2;
+    private ComboBox comboBoxlistaMundiales2;
+    @FXML
+    private ComboBox comboBoxlistaMundiales3;
 
     // Aqui defino los grupos;
     @FXML
@@ -160,6 +185,7 @@ public class LandingAdministradorController implements Initializable {
     @FXML
     private ListView lViewLigas;
 
+    // Aqui defino las listas para 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -168,11 +194,12 @@ public class LandingAdministradorController implements Initializable {
         nombreColumn.setCellValueFactory(new PropertyValueFactory<Equipo, String>("nombre"));
         rankingColumn.setCellValueFactory(new PropertyValueFactory<Equipo, String>("rankinFIFA"));
 
-        tableView.setItems(getEquipos());
+        tableViewEquipos.setItems(getEquipos());
 
-        tableView.setEditable(true);
+        tableViewEquipos.setEditable(true);
 
         btnActualizar.setVisible(false);
+        btnRegistrarMundial.setVisible(false);
 
         //Aqui agrupo los radio buttons dentro de un toggleGroup
         actividadMundialesGroup = new ToggleGroup();
@@ -190,14 +217,14 @@ public class LandingAdministradorController implements Initializable {
         GestorEquipos miGestor = new GestorEquipos();
         ArrayList<Equipo> listaEquipos = miGestor.getListaEquipos();
         for (Equipo x : listaEquipos) {
-            choiceBoxEquipos.getItems().add(x.getIso() + ", " + x.getNombre());
+            comboBoxEquipos.getItems().add(x.getIso() + ", " + x.getNombre());
         }
     }
 
     public void nuevoEquipo() {
         Equipo equipoNuevo = new Equipo(txtISO.getText(), txtNombre.getText(), Integer.parseInt(txtRanking.getText()));
         // tomar todos los items de la tabla
-        tableView.getItems().add(equipoNuevo);
+        tableViewEquipos.getItems().add(equipoNuevo);
         txtISO.setText("");
         txtNombre.setText("");
         txtRanking.setText("");
@@ -207,8 +234,8 @@ public class LandingAdministradorController implements Initializable {
     // Metodo para borrar lineas
     public void deleteEquipo() {
         ObservableList<Equipo> selectedRows, allTeams;
-        allTeams = tableView.getItems();
-        selectedRows = tableView.getSelectionModel().getSelectedItems();
+        allTeams = tableViewEquipos.getItems();
+        selectedRows = tableViewEquipos.getSelectionModel().getSelectedItems();
 
         for (Equipo x : selectedRows) {
             allTeams.remove(x);
@@ -218,12 +245,12 @@ public class LandingAdministradorController implements Initializable {
     public void actualizarEquipo() {
         btnActualizar.setVisible(false);
         btnRegistrar.setVisible(true);
-        Equipo selectedRow = tableView.getSelectionModel().getSelectedItem();
+        Equipo selectedRow = tableViewEquipos.getSelectionModel().getSelectedItem();
 
         Equipo equipoActualizado = new Equipo(txtISO.getText(), txtNombre.getText(), Integer.parseInt(txtRanking.getText()));
 
-        tableView.getItems().remove(selectedRow);
-        tableView.getItems().add(equipoActualizado);
+        tableViewEquipos.getItems().remove(selectedRow);
+        tableViewEquipos.getItems().add(equipoActualizado);
 
         txtISO.setText("");
         txtNombre.setText("");
@@ -252,14 +279,21 @@ public class LandingAdministradorController implements Initializable {
     }
 
     public void salirDelSistema(ActionEvent event) throws IOException {
-        System.exit(0);
+        Parent tableViewParent = FXMLLoader.load(getClass().getResource("Login.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
+
+        //Esta linea toma la informacion del Stage
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(tableViewScene);
+        window.show();
     }
 
     public void modificarEquipo(CellEditEvent celdaCambiar) {
         btnActualizar.setVisible(true);
         btnRegistrar.setVisible(false);
 
-        Equipo selectedRow = tableView.getSelectionModel().getSelectedItem();
+        Equipo selectedRow = tableViewEquipos.getSelectionModel().getSelectedItem();
         txtISO.setText(selectedRow.getIso());
         txtNombre.setText(selectedRow.getNombre());
         txtRanking.setText(String.valueOf(selectedRow.getRankinFIFA()));
@@ -268,44 +302,45 @@ public class LandingAdministradorController implements Initializable {
     // Este metodo añade equipos dentro de un grupo:
     public void anhadirEquiposMundial() {
         if (lviewGrupo1.getItems().size() < 4) {
-            lviewGrupo1.getItems().add(choiceBoxEquipos.getSelectionModel().getSelectedItem());
-            choiceBoxEquipos.getItems().remove(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+            lviewGrupo1.getItems().add(comboBoxEquipos.getSelectionModel().getSelectedItem());
+            comboBoxEquipos.getItems().remove(comboBoxEquipos.getSelectionModel().getSelectedItem());
         } else {
             if (lviewGrupo2.getItems().size() < 4) {
-                lviewGrupo2.getItems().add(choiceBoxEquipos.getSelectionModel().getSelectedItem());
-                choiceBoxEquipos.getItems().remove(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+                lviewGrupo2.getItems().add(comboBoxEquipos.getSelectionModel().getSelectedItem());
+                comboBoxEquipos.getItems().remove(comboBoxEquipos.getSelectionModel().getSelectedItem());
             } else {
                 if (lviewGrupo3.getItems().size() < 4) {
-                    lviewGrupo3.getItems().add(choiceBoxEquipos.getSelectionModel().getSelectedItem());
-                    choiceBoxEquipos.getItems().remove(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+                    lviewGrupo3.getItems().add(comboBoxEquipos.getSelectionModel().getSelectedItem());
+                    comboBoxEquipos.getItems().remove(comboBoxEquipos.getSelectionModel().getSelectedItem());
                 } else {
                     if (lviewGrupo4.getItems().size() < 4) {
-                        lviewGrupo4.getItems().add(choiceBoxEquipos.getSelectionModel().getSelectedItem());
-                        choiceBoxEquipos.getItems().remove(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+                        lviewGrupo4.getItems().add(comboBoxEquipos.getSelectionModel().getSelectedItem());
+                        comboBoxEquipos.getItems().remove(comboBoxEquipos.getSelectionModel().getSelectedItem());
                     } else {
                         if (lviewGrupo5.getItems().size() < 4) {
-                            lviewGrupo5.getItems().add(choiceBoxEquipos.getSelectionModel().getSelectedItem());
-                            choiceBoxEquipos.getItems().remove(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+                            lviewGrupo5.getItems().add(comboBoxEquipos.getSelectionModel().getSelectedItem());
+                            comboBoxEquipos.getItems().remove(comboBoxEquipos.getSelectionModel().getSelectedItem());
                         } else {
                             if (lviewGrupo6.getItems().size() < 4) {
-                                lviewGrupo6.getItems().add(choiceBoxEquipos.getSelectionModel().getSelectedItem());
-                                choiceBoxEquipos.getItems().remove(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+                                lviewGrupo6.getItems().add(comboBoxEquipos.getSelectionModel().getSelectedItem());
+                                comboBoxEquipos.getItems().remove(comboBoxEquipos.getSelectionModel().getSelectedItem());
                             } else {
                                 if (lviewGrupo7.getItems().size() < 4) {
-                                    lviewGrupo7.getItems().add(choiceBoxEquipos.getSelectionModel().getSelectedItem());
-                                    choiceBoxEquipos.getItems().remove(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+                                    lviewGrupo7.getItems().add(comboBoxEquipos.getSelectionModel().getSelectedItem());
+                                    comboBoxEquipos.getItems().remove(comboBoxEquipos.getSelectionModel().getSelectedItem());
                                 } else {
                                     if (lviewGrupo8.getItems().size() < 3) {
-                                        lviewGrupo8.getItems().add(choiceBoxEquipos.getSelectionModel().getSelectedItem());
-                                        choiceBoxEquipos.getItems().remove(choiceBoxEquipos.getSelectionModel().getSelectedItem());
+                                        lviewGrupo8.getItems().add(comboBoxEquipos.getSelectionModel().getSelectedItem());
+                                        comboBoxEquipos.getItems().remove(comboBoxEquipos.getSelectionModel().getSelectedItem());
                                     } else {
                                         if (lviewGrupo8.getItems().size() < 4) {
-                                            lviewGrupo8.getItems().add(choiceBoxEquipos.getSelectionModel().getSelectedItem());
-                                            choiceBoxEquipos.getItems().remove(choiceBoxEquipos.getSelectionModel().getSelectedItem());
-                                            choiceBoxEquipos.setVisible(false);
+                                            lviewGrupo8.getItems().add(comboBoxEquipos.getSelectionModel().getSelectedItem());
+                                            comboBoxEquipos.getItems().remove(comboBoxEquipos.getSelectionModel().getSelectedItem());
+                                            comboBoxEquipos.setVisible(false);
                                             btnAnhadirEquipoMundial.setVisible(false);
                                             lblListaEquipos.setText("Grupos llenos!");
                                             lblAnhadirEquiposMundial.setVisible(false);
+                                            btnRegistrarMundial.setVisible(true);
                                         }
                                     }
                                 }
@@ -318,13 +353,13 @@ public class LandingAdministradorController implements Initializable {
     }
 
     public void cancelarRegistroMundial() {
-        choiceBoxEquipos.getItems().clear();
+        comboBoxEquipos.getItems().clear();
         //Aqui relleno los equipos que van dentro del ChoiceBox 
 
         GestorEquipos miGestor = new GestorEquipos();
         ArrayList<Equipo> listaEquipos = miGestor.getListaEquipos();
         for (Equipo x : listaEquipos) {
-            choiceBoxEquipos.getItems().add(x.getIso() + ", " + x.getNombre());
+            comboBoxEquipos.getItems().add(x.getIso() + ", " + x.getNombre());
         }
         lviewGrupo1.getItems().clear();
         lviewGrupo2.getItems().clear();
@@ -337,10 +372,11 @@ public class LandingAdministradorController implements Initializable {
 
         txtPais.setText("");
         dateMundial.setValue(null);
-        choiceBoxEquipos.setVisible(true);
+        comboBoxEquipos.setVisible(true);
         btnAnhadirEquipoMundial.setVisible(true);
         lblListaEquipos.setText("Lista de equipos:");
         lblAnhadirEquiposMundial.setVisible(true);
+        btnRegistrarMundial.setVisible(false);
 
     }
 
@@ -358,8 +394,8 @@ public class LandingAdministradorController implements Initializable {
             estatus = false;
         }
 
-        GestorMundiales miGestor = new GestorMundiales();
-        miGestor.setMundial(fecha, pais, estatus);
+        GestorMundiales miGestorMundial = new GestorMundiales();
+        miGestorMundial.setMundial(fecha, pais, estatus);
 
         //Prueba!
         System.out.println("Tamano " + lviewGrupo1.getItems().size());
@@ -377,7 +413,10 @@ public class LandingAdministradorController implements Initializable {
         for (String e : listaEquipos1) {
             equipos1.add(e.toString().substring(5));
         }
-        miGestor.setGrupoMundial(pais, txtGrupo1.getText(), txtGrupo1.getText(), equipos1);
+
+        GestorGrupos miGestorGrupos = new GestorGrupos();
+
+        miGestorGrupos.setGrupoMundial(pais, txtGrupo1.getText(), txtGrupo1.getText(), equipos1);
 
         //set grupo 2
         ObservableList<String> listaEquipos2 = lviewGrupo2.getItems();
@@ -385,7 +424,7 @@ public class LandingAdministradorController implements Initializable {
         for (String e : listaEquipos2) {
             equipos2.add(e.substring(5));
         }
-        miGestor.setGrupoMundial(pais, txtGrupo2.getText(), txtGrupo2.getText(), equipos2);
+        miGestorGrupos.setGrupoMundial(pais, txtGrupo2.getText(), txtGrupo2.getText(), equipos2);
 
         //set grupo 3
         ObservableList<String> listaEquipos3 = lviewGrupo3.getItems();
@@ -393,7 +432,7 @@ public class LandingAdministradorController implements Initializable {
         for (String e : listaEquipos3) {
             equipos3.add(e.substring(5));
         }
-        miGestor.setGrupoMundial(pais, txtGrupo3.getText(), txtGrupo3.getText(), equipos3);
+        miGestorGrupos.setGrupoMundial(pais, txtGrupo3.getText(), txtGrupo3.getText(), equipos3);
 
         //set grupo 4
         ObservableList<String> listaEquipos4 = lviewGrupo4.getItems();
@@ -401,7 +440,7 @@ public class LandingAdministradorController implements Initializable {
         for (String e : listaEquipos4) {
             equipos4.add(e.substring(5));
         }
-        miGestor.setGrupoMundial(pais, txtGrupo4.getText(), txtGrupo4.getText(), equipos4);
+        miGestorGrupos.setGrupoMundial(pais, txtGrupo4.getText(), txtGrupo4.getText(), equipos4);
 
         //set grupo 5
         ObservableList<String> listaEquipos5 = lviewGrupo5.getItems();
@@ -409,7 +448,7 @@ public class LandingAdministradorController implements Initializable {
         for (String e : listaEquipos5) {
             equipos5.add(e.substring(5));
         }
-        miGestor.setGrupoMundial(pais, txtGrupo5.getText(), txtGrupo5.getText(), equipos5);
+        miGestorGrupos.setGrupoMundial(pais, txtGrupo5.getText(), txtGrupo5.getText(), equipos5);
 
         //set grupo 6
         ObservableList<String> listaEquipos6 = lviewGrupo6.getItems();
@@ -417,7 +456,7 @@ public class LandingAdministradorController implements Initializable {
         for (String e : listaEquipos6) {
             equipos6.add(e.substring(5));
         }
-        miGestor.setGrupoMundial(pais, txtGrupo6.getText(), txtGrupo6.getText(), equipos6);
+        miGestorGrupos.setGrupoMundial(pais, txtGrupo6.getText(), txtGrupo6.getText(), equipos6);
 
         //set grupo 7
         ObservableList<String> listaEquipos7 = lviewGrupo7.getItems();
@@ -425,7 +464,7 @@ public class LandingAdministradorController implements Initializable {
         for (String e : listaEquipos7) {
             equipos7.add(e.substring(5));
         }
-        miGestor.setGrupoMundial(pais, txtGrupo7.getText(), txtGrupo7.getText(), equipos7);
+        miGestorGrupos.setGrupoMundial(pais, txtGrupo7.getText(), txtGrupo7.getText(), equipos7);
 
         //set grupo 8
         ObservableList<String> listaEquipos8 = lviewGrupo8.getItems();
@@ -433,8 +472,10 @@ public class LandingAdministradorController implements Initializable {
         for (String e : listaEquipos8) {
             equipos8.add(e.substring(5));
         }
-        miGestor.setGrupoMundial(pais, txtGrupo8.getText(), txtGrupo8.getText(), equipos8);
-        miGestor.setCronograma(pais);
+        miGestorGrupos.setGrupoMundial(pais, txtGrupo8.getText(), txtGrupo8.getText(), equipos8);
+
+        GestorCronogramas miGestorCrono = new GestorCronogramas();
+        miGestorCrono.setCronograma(pais);
 
         //miGestor.setCronograma(pais);
         cancelarRegistroMundial();
@@ -444,21 +485,32 @@ public class LandingAdministradorController implements Initializable {
     public void rellenarMundiales() {
         GestorMundiales miGestor = new GestorMundiales();
         ArrayList<String> mundiales = miGestor.listarMundiales();
-        choiceBoxlistaMundiales.getItems().clear();
-        choiceBoxlistaMundiales2.getItems().clear();
+        comboBoxlistaMundiales.getItems().clear();
+        comboBoxlistaMundiales2.getItems().clear();
+        comboBoxlistaMundiales3.getItems().clear();
 
         for (String x : mundiales) {
-            choiceBoxlistaMundiales.getItems().add(x);
-            choiceBoxlistaMundiales2.getItems().add(x);
+            comboBoxlistaMundiales.getItems().add(x);
+            comboBoxlistaMundiales2.getItems().add(x);
+            comboBoxlistaMundiales3.getItems().add(x);
         }
 
     }
 
     public void rellenarCronograma() {
-        GestorMundiales miGestor = new GestorMundiales();
+        GestorCronogramas miGestor = new GestorCronogramas();
         String pais;
 
-        pais = choiceBoxlistaMundiales2.getSelectionModel().getSelectedItem().toString();
+        lviewCronograma1.getItems().clear();
+        lviewCronograma2.getItems().clear();
+        lviewCronograma3.getItems().clear();
+        lviewCronograma4.getItems().clear();
+        lviewCronograma5.getItems().clear();;
+        lviewCronograma6.getItems().clear();
+        lviewCronograma7.getItems().clear();
+        lviewCronograma8.getItems().clear();
+
+        pais = comboBoxlistaMundiales2.getSelectionModel().getSelectedItem().toString();
 
         ArrayList<String> partidos = new ArrayList();
 
@@ -492,9 +544,9 @@ public class LandingAdministradorController implements Initializable {
             estatus = false;
         }
 
-        mundial = choiceBoxlistaMundiales.getSelectionModel().getSelectedItem().toString();
+        mundial = comboBoxlistaMundiales.getSelectionModel().getSelectedItem().toString();
 
-        GestorMundiales miGestor = new GestorMundiales();
+        GestorLigas miGestor = new GestorLigas();
         miGestor.setLiga(mundial, nombreLiga, fechaCreacion, estatus, false);
         lViewLigas.getItems().clear();
         ArrayList<String> ligas = new ArrayList();
@@ -508,7 +560,70 @@ public class LandingAdministradorController implements Initializable {
     public void cancelarRegistroLiga() {
         txtNombreLiga.setText("");
         dateLiga.setValue(null);
-        choiceBoxlistaMundiales.getItems().clear();
+        comboBoxlistaMundiales.getItems().clear();
+
+    }
+
+    public void llenarInformacion() {
+        tableViewCronograma.getItems().removeAll();
+        ObservableList<CronogramaUI> lista = FXCollections.observableArrayList();
+        String pais;
+
+        pais = comboBoxlistaMundiales3.getSelectionModel().getSelectedItem().toString();
+
+        GestorCronogramas miGestor = new GestorCronogramas();
+
+        ArrayList<String> cronograma = miGestor.getCronogramaCompleto(pais);
+
+        for (String x : cronograma) {
+            String codigo = x.substring(0, x.indexOf(")"));
+            String equipo1 = x.substring(x.indexOf(")") + 1, x.indexOf(" -"));
+            String equipo2 = x.substring(x.indexOf("- ") + 2, x.indexOf("/"));
+            String date = x.substring(x.indexOf("/") + 1, x.indexOf(",fase:"));
+            String fase = x.substring(x.indexOf(",fase:") + 6);
+            CronogramaUI partidoX = new CronogramaUI(codigo, equipo1, equipo2, date, fase, "", "");
+            lista.add(partidoX);
+        }
+
+        columnaFecha.setCellValueFactory(new PropertyValueFactory<CronogramaUI, String>("fecha"));
+        columnaEquipo1.setCellValueFactory(new PropertyValueFactory<CronogramaUI, String>("equipo1"));
+        columnaEquipo2.setCellValueFactory(new PropertyValueFactory<CronogramaUI, String>("equipo2"));
+        columnaFase.setCellValueFactory(new PropertyValueFactory<CronogramaUI, String>("fase"));
+        columnaGoles1.setCellValueFactory(new PropertyValueFactory<CronogramaUI, TextField>("golesEquipo1"));
+        columnaGoles2.setCellValueFactory(new PropertyValueFactory<CronogramaUI, TextField>("golesEquipo2"));
+
+        tableViewCronograma.setItems(lista);
+
+    }
+
+    public void cambioResultadoEquipo1(CellEditEvent edittedCell) {
+        CronogramaUI partidoX = tableViewCronograma.getSelectionModel().getSelectedItem();
+        partidoX.setGolesEquipo1(edittedCell.getNewValue().toString());
+    }
+
+    public void cambioResultadoEquipo2(CellEditEvent edittedCell) {
+        CronogramaUI partidoX = tableViewCronograma.getSelectionModel().getSelectedItem();
+        partidoX.setGolesEquipo2(edittedCell.getNewValue().toString());
+    }
+
+    public void guardarResultadosMundial() {
+        ObservableList<CronogramaUI> cronoX = tableViewCronograma.getItems();
+        GestorCronogramas miGestor = new GestorCronogramas();
+        String pais = comboBoxlistaMundiales3.getSelectionModel().getSelectedItem().toString();
+
+        for (CronogramaUI x : cronoX) {
+            if (x.getGolesEquipo1().getText().equals("") || x.getGolesEquipo1().getText().equals("")) {
+            } else {
+                int codigo = Integer.parseInt(x.getCodigo());
+                int goles1 = Integer.parseInt(x.getGolesEquipo1().getText());
+                int goles2 = Integer.parseInt(x.getGolesEquipo2().getText());
+                //prueba
+                System.out.println("Codigo" + codigo + "/" + goles1 + "-" + goles2);
+
+                miGestor.actualizarResultadosCronograma(pais, codigo, goles1, goles2);
+            }
+
+        }
 
     }
 
